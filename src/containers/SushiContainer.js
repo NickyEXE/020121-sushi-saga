@@ -1,19 +1,24 @@
 import React, { Fragment } from 'react'
 import MoreButton from '../components/MoreButton'
+import Sushi from '../components/Sushi'
+import { connect } from 'react-redux'
 
-const SushiContainer = (props) => {
+const SushiContainer = ({sushis}) => {
   return (
     <Fragment>
       <div className="belt">
-        {
-          /* 
-             Render Sushi components here!
-          */
-        }
+        {sushis.map(sushi => <Sushi {...sushi} key={sushi.id} />)}
         <MoreButton />
       </div>
     </Fragment>
   )
 }
 
-export default SushiContainer
+const mapStateToProps = (state) => {
+  const slicedSushis = state.sushis.slice(state.offset, state.offset + 4)
+  return {
+    sushis: slicedSushis
+  }
+}
+
+export default connect(mapStateToProps)(SushiContainer)
